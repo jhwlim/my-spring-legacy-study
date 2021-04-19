@@ -17,4 +17,12 @@ public class HomeController {
 	@GetMapping("/login")
 	public void login() {}
 	
+	@GetMapping("/admin")
+	public void getAdminPage() {}
+	
+	@GetMapping("/error")
+	public String error() {
+		return "redirect:/";
+	}
+	
 }

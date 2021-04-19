@@ -35,22 +35,28 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 					"FROM user_authorities a, users u " +
 					"WHERE u.username = ? AND u.id = a.user_id"
 					);
+		
 	}
 	
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
-		http.csrf().disable();
+//		http.csrf().disable();
 		
 		http.authorizeRequests()
 			.antMatchers("/", "/home").permitAll()
+			.antMatchers("/admin").hasAuthority("ROLE_ADMIN")
+//			.antMatchers("/admin").hasRole("ADMIN")
 			.anyRequest().authenticated();
-				
+		
 		http.formLogin()
 			.loginPage("/login")
 			.permitAll();
 				
 		http.logout()
 			.permitAll();
+	
+		http.exceptionHandling().accessDeniedPage("/error");
+		
 	}
 
 	@Bean

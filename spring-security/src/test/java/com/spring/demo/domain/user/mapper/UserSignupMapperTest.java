@@ -31,8 +31,8 @@ public class UserSignupMapperTest {
 	@Test
 	public void createUser() {
 		User user = User.builder()
-						.username("test01")
-						.password(passwordEncoder.encode("test01"))
+						.username("admin")
+						.password(passwordEncoder.encode("admin"))
 						.enabled(Boolean.TRUE)
 						.build();
 		
@@ -42,7 +42,7 @@ public class UserSignupMapperTest {
 		
 		UserAuthority userAuthority = UserAuthority.builder()
 												   .userId(user.getId())
-												   .authority("USER")
+												   .authority("ROLE_ADMIN")
 												   .build();
 		
 		mapper.insertUserAuthority(userAuthority);
