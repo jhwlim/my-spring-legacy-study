@@ -8,7 +8,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 
-import com.spring.demo.domain.user.dto.User;
+import com.spring.demo.domain.user.dto.Account;
 import com.spring.demo.domain.user.dto.UserAuthority;
 
 import lombok.extern.log4j.Log4j;
@@ -30,7 +30,7 @@ public class UserSignupMapperTest {
 	
 	@Test
 	public void createUser() {
-		User user = User.builder()
+		Account user = Account.builder()
 						.username("admin")
 						.password(passwordEncoder.encode("admin"))
 						.enabled(Boolean.TRUE)
