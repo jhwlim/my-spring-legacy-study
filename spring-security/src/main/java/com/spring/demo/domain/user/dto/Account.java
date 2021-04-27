@@ -13,10 +13,10 @@ public class Account {
 	private String password;
 	private boolean enabled;
 	
-	private String image;
 	private String authority;
 	
-		
+	public Account() {}
+	
 	@Builder
 	public Account(String username, String password, boolean enabled) {
 		this.username = username;
@@ -24,6 +24,4 @@ public class Account {
 		this.enabled = enabled;
 	}
 	
-	@Builder
-	public Account() {}
 }

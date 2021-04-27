@@ -8,4 +8,5 @@ public interface UserSignupMapper {
 	public void insertUser(Account user);
 	
 	public void insertUserAuthority(UserAuthority userAuthority);
+	
 }

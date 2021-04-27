@@ -29,5 +29,4 @@ public class SecurityUserDetailsService implements UserDetailsService {
 		return new SecurityUser(user);
 	}
 	
-
 }

@@ -10,7 +10,6 @@
 <body>
 <h1>Hello!</h1>
 <form action="<c:url value='logout'/>" method="POST">
-	<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
 	<input type="submit" value="Sign Out" />
 </form>
 </body>

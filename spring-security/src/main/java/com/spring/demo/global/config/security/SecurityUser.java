@@ -10,14 +10,11 @@ import org.springframework.security.core.userdetails.User;
 import com.spring.demo.domain.user.dto.Account;
 
 import lombok.Getter;
-import lombok.Setter;
 import lombok.ToString;
-import lombok.extern.log4j.Log4j;
 
 
 @Getter
 @ToString
-@Log4j
 public class SecurityUser extends User {
 
 	private Account account;
@@ -30,10 +27,5 @@ public class SecurityUser extends User {
 		super(user.getUsername(), user.getPassword(), List.of(new SimpleGrantedAuthority(user.getAuthority())));
 		this.account = user;
 	}
-	
-	public Account getAccount() {
-		return account;
-	}
-	
 	
 }
