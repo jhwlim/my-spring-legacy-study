@@ -5,6 +5,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
+<meta name="_csrf" content="${_csrf.token}"/>
 <title>Login</title>
 </head>
 <body>
@@ -27,13 +28,15 @@
 		
 		var username = document.getElementById('username').value;
 		var password = document.getElementById('password').value;
+		var token = document.querySelector('meta[name="_csrf"]').getAttribute("content");
 		
 		var data = {
 				username: username,
 				password: password,
 		};
 		
-		axios.get('/spring/api', data)
+		axios.defaults.headers['X-CSRF-TOKEN'] = token;
+		axios.post('/spring/api/post', data)
 			.then(function(response) {
 				console.log(response);
 			})
