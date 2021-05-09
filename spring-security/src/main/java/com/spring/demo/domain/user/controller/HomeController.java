@@ -1,4 +1,4 @@
-package com.spring.demo.domain.user;
+package com.spring.demo.domain.user.controller;
 
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
