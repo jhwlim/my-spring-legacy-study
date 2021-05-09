@@ -20,6 +20,7 @@ public class SecurityUserDetailsService implements UserDetailsService {
 	
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+		log.info("username=" + username);
 		Account user = mapper.selectUserWithAuthorityByUsername(username);
 		log.info("user=" + user);
 		if (user == null) {

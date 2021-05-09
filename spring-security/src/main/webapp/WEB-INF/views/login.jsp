@@ -36,9 +36,12 @@
 		};
 		
 		axios.defaults.headers['X-CSRF-TOKEN'] = token;
-		axios.post('/spring/api/post', data)
+		axios.post('/spring/login', data)
 			.then(function(response) {
 				console.log(response);
+				if (response.status === 200) {
+					location.href = "/spring/";
+				}
 			})
 			.catch(function(error) {
 				console.log(error);
