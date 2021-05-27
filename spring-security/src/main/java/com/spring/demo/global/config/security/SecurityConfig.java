@@ -16,6 +16,7 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import com.spring.demo.global.config.security.filter.RestAuthenticationFilter;
 import com.spring.demo.global.config.security.handler.RestAuthenticationFailureHandler;
 import com.spring.demo.global.config.security.handler.RestAuthenticationSuccessHandler;
+import com.spring.demo.global.config.security.handler.RestLogoutSuccessHandler;
 
 @Configuration
 @EnableWebSecurity
@@ -30,7 +31,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	}
 	
 	@Override
-	protected void configure(HttpSecurity http) throws Exception {		
+	protected void configure(HttpSecurity http) throws Exception {			
 		http.authorizeRequests()
 			.antMatchers("/", "/home").permitAll()
 			.antMatchers("/api/**").permitAll()
@@ -41,6 +42,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 			.permitAll();
 				
 		http.logout()
+			.logoutSuccessHandler(logoutSuccessHandler())
 			.permitAll();
 		
 		http.addFilterAt(restAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);	// UsernamePasswordAuthenticationFilter 자리에 생성한 필터 삽입
@@ -52,7 +54,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	}
 	
 	@Bean
-	protected RestAuthenticationFilter restAuthenticationFilter() throws Exception {
+	public RestAuthenticationFilter restAuthenticationFilter() throws Exception {
 		RestAuthenticationFilter filter = new RestAuthenticationFilter(new AntPathRequestMatcher("/login", "POST")); // URL, HttpMethod
 		filter.setAuthenticationManager(this.authenticationManager());
 		filter.setAuthenticationSuccessHandler(new RestAuthenticationSuccessHandler());
@@ -60,4 +62,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		return filter;
 	}
 	
+	@Bean
+	public RestLogoutSuccessHandler logoutSuccessHandler() {
+		return new RestLogoutSuccessHandler();
+	}
 }
