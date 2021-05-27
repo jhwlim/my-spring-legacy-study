@@ -10,6 +10,13 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+
+import com.spring.demo.global.config.security.filter.RestAuthenticationFilter;
+import com.spring.demo.global.config.security.handler.RestAuthenticationFailureHandler;
+import com.spring.demo.global.config.security.handler.RestAuthenticationSuccessHandler;
+import com.spring.demo.global.config.security.handler.RestLogoutSuccessHandler;
 
 @Configuration
 @EnableWebSecurity
@@ -24,11 +31,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	}
 	
 	@Override
-	protected void configure(HttpSecurity http) throws Exception {
-		http.csrf().disable();
-		
+	protected void configure(HttpSecurity http) throws Exception {			
 		http.authorizeRequests()
 			.antMatchers("/", "/home").permitAll()
+			.antMatchers("/api/**").permitAll()
 			.anyRequest().authenticated();
 		
 		http.formLogin()
@@ -36,7 +42,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 			.permitAll();
 				
 		http.logout()
+			.logoutSuccessHandler(logoutSuccessHandler())
 			.permitAll();
+		
+		http.addFilterAt(restAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);	// UsernamePasswordAuthenticationFilter 자리에 생성한 필터 삽입
 	}
 
 	@Bean
@@ -44,4 +53,17 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		return new BCryptPasswordEncoder();
 	}
 	
+	@Bean
+	public RestAuthenticationFilter restAuthenticationFilter() throws Exception {
+		RestAuthenticationFilter filter = new RestAuthenticationFilter(new AntPathRequestMatcher("/login", "POST")); // URL, HttpMethod
+		filter.setAuthenticationManager(this.authenticationManager());
+		filter.setAuthenticationSuccessHandler(new RestAuthenticationSuccessHandler());
+		filter.setAuthenticationFailureHandler(new RestAuthenticationFailureHandler());
+		return filter;
+	}
+	
+	@Bean
+	public RestLogoutSuccessHandler logoutSuccessHandler() {
+		return new RestLogoutSuccessHandler();
+	}
 }
